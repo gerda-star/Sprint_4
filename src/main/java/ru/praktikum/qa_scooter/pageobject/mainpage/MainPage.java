@@ -8,10 +8,11 @@ import ru.praktikum.qa_scooter.pageobject.orderpage.OrderPageFormPerson;
 import static ru.praktikum.qa_scooter.config.AppConfig.APP_URL;
 
 public class MainPage {
-    //Кнопка заказа
+    //Кнопка заказа 1
     private By buttonOrderInHeader = By.xpath(".//div[starts-with(@class, 'Header_Nav')]/button[text()='Заказать']");
-
-
+    //Кнопка заказа 2
+    private By buttonOrderInFinish = By.xpath(".//div[starts-with(@class, 'Home_Finish')]/button[text()='Заказать']");
+    private By buttonLocator;
 
     WebDriver driver;
 
@@ -21,11 +22,16 @@ public class MainPage {
 
 
     }
-    public OrderPageFormPerson buttonToDoOrderClick(String xpathButton) {
-            WebElement buttonToDo = driver.findElement(By.xpath(xpathButton));
-            ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", buttonToDo);
-            buttonToDo.click();
-            return new OrderPageFormPerson(driver);
+    public OrderPageFormPerson buttonToDoOrderClick(String nameButton) {
+        if (nameButton.equals("head")) {
+            buttonLocator = buttonOrderInHeader;
+        } else {
+            buttonLocator = buttonOrderInFinish;
+        }
+        WebElement buttonToDo = driver.findElement(buttonLocator);
+        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", buttonToDo);
+        buttonToDo.click();
+        return new OrderPageFormPerson(driver);
     }
 
     public DivFAQ goToFAQ() {
